@@ -12,7 +12,7 @@ npm install [--save] hof-behaviour-feedback;
 
 ## Usage
 
-### hof app initialisation (route level index.js)
+### hof app initialisation (top level index.js)
 ```javascript
 const app = hof({
   ...
