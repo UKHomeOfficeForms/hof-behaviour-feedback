@@ -209,7 +209,8 @@ describe('SubmitFeedback behaviour', () => {
      expect(errorPassedToNext).to.be.an('undefined');
    });
 
-   it('should call next with the thrown error if email sending fails', () => {
+   it('should call next logging the thrown error and returning a sensible user facing error if email sending fails',
+   () => {
      submitFeedback = new SubmitFeedback({
        template: 'index',
        fields: {
@@ -243,7 +244,11 @@ describe('SubmitFeedback behaviour', () => {
          }
        });
      Promise.resolve(nextCalled).should.eventually.equal(true);
-     Promise.resolve(errorPassedToNext).should.eventually.equal(error);
+     Promise.resolve(errorPassedToNext).should.eventually.satisfy(function(value) {
+            req.log.should.have.been.calledOnce.and.calledWithExactly('error', error);
+            return value === 'There was an error sending your feedback';
+        });
+
    });
 
   });
