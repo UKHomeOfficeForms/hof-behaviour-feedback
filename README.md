@@ -56,7 +56,12 @@ Configure the fields for the feedback step as normal.
 
 #### Submission types
 
+While currently only GovUK email is supported this library is designed to be easily extensible to support
+other types of feedback submission.
+
 ##### Email via GovUK Notify
+
+Requires `notifications-node-client` if notify is configured.
 
 ```javascript
 feedbackConfig: {
