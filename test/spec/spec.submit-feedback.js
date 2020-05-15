@@ -113,12 +113,21 @@ describe('SubmitFeedback behaviour', () => {
         }
     };
     const res = sinon.stub();
-    let nextCalled = false;
-    let next = function() {
-        nextCalled = true;
-    };
     const templateId = 'badger';
     const feedbackEmail = 'b@example.com';
+
+    let nextCalled;
+    let errorPassedToNext;
+
+    let next = function(err) {
+        nextCalled = true;
+        errorPassedToNext = err;
+    };
+
+    beforeEach(() => {
+        nextCalled = false;
+        errorPassedToNext = undefined;
+    });
 
     it('should send email according to configured inputs map if there is an email config', () => {
       submitFeedback = new SubmitFeedback({
@@ -161,6 +170,7 @@ describe('SubmitFeedback behaviour', () => {
           }
         });
       Promise.resolve(nextCalled).should.eventually.equal(true);
+      expect(errorPassedToNext).to.be.an('undefined');
    });
 
    it('should ignore fields not explicitly mapped in the email config', () => {
@@ -196,6 +206,44 @@ describe('SubmitFeedback behaviour', () => {
          }
        });
      Promise.resolve(nextCalled).should.eventually.equal(true);
+     expect(errorPassedToNext).to.be.an('undefined');
+   });
+
+   it('should call next with the thrown error if email sending fails', () => {
+     submitFeedback = new SubmitFeedback({
+       template: 'index',
+       fields: {
+         field1: {},
+         field2: {}
+       },
+       feedbackConfig: {
+         something: 'someValue',
+         notify: {
+            apiKey: apiKey,
+            email: {
+              templateId: templateId,
+              emailAddress: feedbackEmail,
+              fieldMappings: {
+                input2: 'name'
+              }
+            }
+         }
+       }
+     });
+
+     const error = 'some message';
+     submitFeedback.notifyClient.sendEmail = sinon.fake.returns(Promise.reject(error));
+
+     submitFeedback.process(req, res, next);
+
+     submitFeedback.notifyClient.sendEmail.should.have.been.calledOnce
+       .and.calledWithExactly(templateId, feedbackEmail, {
+         personalisation: {
+           name: req.form.values.input2
+         }
+       });
+     Promise.resolve(nextCalled).should.eventually.equal(true);
+     Promise.resolve(errorPassedToNext).should.eventually.equal(error);
    });
 
   });
