@@ -1,0 +1,13 @@
+extends:
+  - '../.eslintrc'
+  - 'homeoffice/config/testing'
+
+env:
+  es6: true
+
+rules:
+  no-underscore-dangle: 0
+  max-len: 0
+
+globals:
+  request: true

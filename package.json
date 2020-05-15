@@ -1,0 +1,40 @@
+{
+  "name": "hof-behaviour-feedback",
+  "version": "1.0.0",
+  "description": "A hof plugin allow customisation of the linked feedback form and feedback form submission",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run lint && npm run unit && npm run cover && npm run check-coverage && npm audit --audit-level=high",
+    "unit": "mocha --recursive test/spec/ --require test/helper --timeout 300000",
+    "unit:debug": "mocha --recursive test/spec/ --require test/helper --timeout 300000 --inspect-brk",
+    "cover": "nyc mocha --recursive test/spec/ --require test/helper --timeout 300000",
+    "check-coverage": "nyc check-coverage --statement 90 --branch 90 --function 90 --line 90",
+    "lint": "eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UKHomeOfficeForms/hof-behaviour-feedback.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UKHomeOfficeForms/hof-behaviour-feedback/issues"
+  },
+  "homepage": "https://github.com/UKHomeOfficeForms/hof-behaviour-feedback",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "notifications-node-client": "^4.7.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "eslint": "^7.0.0",
+    "eslint-config-homeoffice": "^2.2.0",
+    "hof-form-controller": "^6.1.0",
+    "mocha": "^7.1.2",
+    "nyc": "^15.0.1",
+    "reqres": "^3.0.1",
+    "sinon": "^9.0.2",
+    "sinon-chai": "^3.5.0"
+  }
+}
