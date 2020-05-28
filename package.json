@@ -1,6 +1,6 @@
 {
   "name": "hof-behaviour-feedback",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A hof plugin allow customisation of the linked feedback form and feedback form submission",
   "main": "index.js",
   "scripts": {
@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/UKHomeOfficeForms/hof-behaviour-feedback",
   "dependencies": {
+    "atob": "^2.1.2",
+    "btoa": "^1.2.1",
     "lodash": "^4.17.15",
     "notifications-node-client": "^4.7.3"
   },

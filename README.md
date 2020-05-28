@@ -1,8 +1,13 @@
 # hof-behaviour-feedback
 
-HOF behaviour allowing a custom feedback page to be deployed as part of the hof form, which will then be linked to as part of the banner.
+HOF behaviour allowing a custom feedback page to be deployed as part of the hof form, which will then be linked to as 
+part of the banner.
 
-When configured correctly the user will be taken to the custom feedback form, and redirected back to the page they came from when the form has been submitted. 
+When configured correctly the user will be taken to the custom feedback form, and redirected back to the page they came 
+from when the form has been submitted.
+
+It is possible to use a single feedback instance for multiple hof forms - e.g. by including it in a 'common' app with 
+no base url and setting a custom feedback url of '/feedback'.
 
 ## Installation
 
@@ -23,7 +28,9 @@ const app = hof({
 });
 ```
 
-#### Customising the feedback form step path (Optional, defaults to /feedback):
+#### Customising the feedback form step path (Optional, defaults to ${app.baseUrl}/feedback):
+
+Note that if setting a custom url for the feedback form the app.baseUrl will not be applied automatically.
 
 ```javascript
 app.use((req, res, next) => {
