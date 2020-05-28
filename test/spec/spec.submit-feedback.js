@@ -92,8 +92,9 @@ describe('SubmitFeedback behaviour', () => {
 
   describe('process with a valid email config', () => {
     const originatingPath = '/path';
+    const baseUrl = '/app';
     const values = {
-      feedbackReturnPath: originatingPath
+      feedbackReturnPath: { baseUrl: baseUrl, path: originatingPath, url: baseUrl + originatingPath }
     };
     let req = {
         log: sinon.spy(),
@@ -104,9 +105,8 @@ describe('SubmitFeedback behaviour', () => {
                 input3: 'Some email'
             }
         },
-        baseUrl: '/app',
+        baseUrl: baseUrl,
         sessionModel: {
-
             get: function(key) {
                 return values[key];
             }
@@ -245,9 +245,9 @@ describe('SubmitFeedback behaviour', () => {
        });
      Promise.resolve(nextCalled).should.eventually.equal(true);
      Promise.resolve(errorPassedToNext).should.eventually.satisfy(function(value) {
-            req.log.should.have.been.calledOnce.and.calledWithExactly('error', error);
-            return value === 'There was an error sending your feedback';
-        });
+         req.log.should.have.been.calledOnce.and.calledWithExactly('error', error);
+         return value === 'There was an error sending your feedback';
+     });
 
    });
 
@@ -293,7 +293,7 @@ describe('SubmitFeedback behaviour', () => {
         log: sinon.spy(),
         sessionModel: {
           get: function() {
-            return '/badgers3';
+            return { baseUrl: '/app', path: '/badgers3', url: '/app/badgers3' };
           }
         }
       };
@@ -331,7 +331,7 @@ describe('SubmitFeedback behaviour', () => {
         log: sinon.spy(),
         sessionModel: {
           get: function() {
-            return '/badgers3';
+            return { baseUrl: '/app', path: '/badgers3', url: '/app/badgers3' };
           }
         }
       };

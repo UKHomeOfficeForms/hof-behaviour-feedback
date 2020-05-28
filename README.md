@@ -23,7 +23,9 @@ const app = hof({
 });
 ```
 
-#### Customising the feedback form step path (Optional, defaults to /feedback):
+#### Customising the feedback form step path (Optional, defaults to ${app.baseUrl}/feedback):
+
+Note that if setting a custom url for the feedback form the app.baseUrl will not be applied automatically.
 
 ```javascript
 app.use((req, res, next) => {
