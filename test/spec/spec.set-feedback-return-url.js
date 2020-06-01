@@ -76,11 +76,10 @@ describe('SetReturnUrl behaviour', () => {
         expect(returned).to.include({foo: 'bar', feedbackUrl: '/feedback2?badger=monkeys&f_t=eyJiYXNlVXJsIjoiL2FwcC1uYW1lIiwicGF0aCI6Ii9zb21lLXBhZ2UiLCJ1cmwiOiIvYXBwLW5hbWUvc29tZS1wYWdlIn0%3D'});
       });
 
-      it('should handle absolute url as feedback url', () => {
+      it('should throw an error if an absolute url is provided as a feedback url', () => {
         res.locals = res.locals || {};
-        res.locals.feedbackUrl = 'http://www.homeoffice.gov.ul/feedback2?badger=monkeys';
-        const returned = setReturnUrl.locals(req, res);
-        expect(returned).to.include({foo: 'bar', feedbackUrl: 'http://www.homeoffice.gov.ul/feedback2?badger=monkeys&f_t=eyJiYXNlVXJsIjoiL2FwcC1uYW1lIiwicGF0aCI6Ii9zb21lLXBhZ2UiLCJ1cmwiOiIvYXBwLW5hbWUvc29tZS1wYWdlIn0%3D'});
+        res.locals.feedbackUrl = 'http://www.homeoffice.gov.uk/feedback2?badger=monkeys';
+        expect(setReturnUrl.locals.bind(setReturnUrl, req, res)).to.throw('Only relative URLs are allowed in feedback configuration');
       });
     });
 
