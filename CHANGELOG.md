@@ -1,3 +1,6 @@
+## 2020-06-01, Version 2.0.1 (Stable), @andymoody
+* Remove stored errorValues when the feedback form is successfully submitted.
+
 ## 2020-05-28, Version 2.0.0 (Stable), @andymoody
 * Custom feedback url's are now treated as relative from the root
   rather than being prepended with the app.baseUrl automatically.
