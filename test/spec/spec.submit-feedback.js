@@ -342,14 +342,56 @@ describe('SubmitFeedback behaviour', () => {
   });
 
   describe('saveValues', () => {
-    it('should not save anything', () => {
-      const req = sinon.spy();
+    it('should not save any form values', () => {
+      const req = {
+        sessionModel: {
+          get: sinon.stub(),
+          set: sinon.spy()
+        },
+        form: {
+          values: {
+            something: 'some value'
+          }
+        }
+      };
       const res = sinon.spy();
       const callback = sinon.spy();
 
+      req.sessionModel.get.withArgs('errorValues').returns(undefined);
+
       submitFeedback.saveValues(req, res, callback);
 
-      req.should.not.have.been.called;
+      req.sessionModel.set.should.not.have.been.called;
+      res.should.not.have.been.called;
+      callback.should.have.been.calledOnce;
+    });
+
+    it('should erase any error values that are related to this form', () => {
+      const req = {
+        sessionModel: {
+          get: sinon.stub(),
+          set: sinon.spy()
+        },
+        form: {
+          values: {
+            something: 'some value',
+            badger: 'monkeys'
+          }
+        }
+      };
+      const res = sinon.spy();
+      const callback = sinon.spy();
+
+      req.sessionModel.get.withArgs('errorValues').returns({
+        something: 'a',
+        anotherThing: 'genius',
+        badger: 'b'
+      });
+
+      submitFeedback.saveValues(req, res, callback);
+
+      req.sessionModel.set.should.have.been.calledOnce
+        .and.calledWithExactly('errorValues', { anotherThing: 'genius' });
       res.should.not.have.been.called;
       callback.should.have.been.calledOnce;
     });
