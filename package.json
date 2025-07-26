@@ -25,7 +25,7 @@
     "atob": "^2.1.2",
     "btoa": "^1.2.1",
     "lodash": "^4.17.15",
-    "notifications-node-client": "^4.7.3"
+    "notifications-node-client": "^5.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
